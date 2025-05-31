@@ -1,7 +1,7 @@
 import {useCallback, useRef, useState} from 'react';
 import {TStore} from './types';
 import {ILog} from '../Logger';
-import {ConsoleService} from 'configs/DevConsole/init';
+import {ConsoleService} from '../../../../../src/configs/DevConsole/init';
 import RNRestart from 'react-native-restart';
 
 const isDevelop = process.env.NODE_ENV === 'development';

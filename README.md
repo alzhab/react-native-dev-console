@@ -3,6 +3,10 @@
 A simple in-app developer console for React Native applications that allows viewing logs, network requests, and
 developer tools in production environments.
 
+## Example
+
+<img src="./README/Preview.gif">
+
 ## Features
 
 - Log Viewer - View log, warn, error, and info logs with optional tags for filtering.
