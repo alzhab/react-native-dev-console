@@ -5,7 +5,7 @@ developer tools in production environments.
 
 ## Example
 
-<img src="./README/Preview.gif" width="50%">
+![Dev Console in action](https://raw.githubusercontent.com/alzhab/react-native-dev-console/main/README/Preview.gif)
 
 ## Features
 
