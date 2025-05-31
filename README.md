@@ -5,7 +5,7 @@ developer tools in production environments.
 
 ## Example
 
-<img src="./README/Preview.gif">
+<img src="./README/Preview.gif" width="50%">
 
 ## Features
 
