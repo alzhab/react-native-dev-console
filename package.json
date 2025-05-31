@@ -1,10 +1,11 @@
 {
   "name": "@corrbo/react-native-dev-console",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Developer menu",
   "main": "src/index.ts",
   "scripts": {},
   "author": "Alzhan",
+  "homepage": "https://github.com/alzhab/react-native-dev-console#readme",
   "license": "ISC",
   "dependencies": {
     "react-native-mmkv": "^3.2.0",
