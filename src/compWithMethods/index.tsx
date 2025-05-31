@@ -1,4 +1,5 @@
 import React, {FC, ReactNode, useCallback, useEffect} from 'react';
+import {IDevConsoleContainerProps} from '../Console';
 
 interface IAdapterRes {
   handlers: any;
@@ -8,9 +9,9 @@ interface IAdapterRes {
 export function compWithMethods<
   AdapterRes extends IAdapterRes,
   ComponentRef,
-  UIProps = {},
+  UIProps extends IDevConsoleContainerProps,
 >(data: {
-  adapter: () => AdapterRes
+  adapter: (data: IDevConsoleContainerProps) => AdapterRes
   UI: (props: UIProps & { adapter: AdapterRes }) => ReactNode
 }): FC<UIProps> & ComponentRef {
   let refs: { current: ComponentRef }[] = [];
@@ -36,7 +37,7 @@ export function compWithMethods<
   }
   
   const Root = React.forwardRef((props: UIProps, ref) => {
-    const adapter = data.adapter();
+    const adapter = data.adapter(props);
     
     React.useImperativeHandle(
       ref,
@@ -45,12 +46,10 @@ export function compWithMethods<
     
     useEffect(() => {
       Object.keys(adapter.handlers).forEach(method => {
-        //@ts-ignore
         Component[method] = (...params: any) => {
           const ref = getRef();
           
           if (ref) {
-            // @ts-ignore
             return ref[method](...params);
           }
         };

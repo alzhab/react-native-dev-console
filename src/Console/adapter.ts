@@ -43,7 +43,7 @@ export const useDevConsoleAdapter = () => {
   }, [logsPaused]);
   
   const createLog = useCallback(
-    (message: any, type: ILog['type'], tag?: string) => {
+    (message: string, type: ILog['type'], tag?: string) => {
       switch (type) {
         case 'debug':
           console.log(message);
@@ -64,7 +64,7 @@ export const useDevConsoleAdapter = () => {
       }
       
       const newLog: ILog = {
-        message: message.toString(),
+        message,
         type,
         date: new Date().toLocaleTimeString(),
         tag
@@ -79,19 +79,19 @@ export const useDevConsoleAdapter = () => {
     [logsPaused, logs]
   );
   
-  const log = useCallback((message: any, tag?: string) => {
+  const log = useCallback((message: string, tag?: string) => {
     createLog(message, 'debug', tag);
   }, []);
   
-  const error = useCallback((message: any, tag?: string) => {
+  const error = useCallback((message: string, tag?: string) => {
     createLog(message, 'error', tag);
   }, []);
   
-  const info = useCallback((message: any, tag?: string) => {
+  const info = useCallback((message: string, tag?: string) => {
     createLog(message, 'info', tag);
   }, []);
   
-  const warn = useCallback((message: any, tag?: string) => {
+  const warn = useCallback((message: string, tag?: string) => {
     createLog(message, 'warn', tag);
   }, []);
   

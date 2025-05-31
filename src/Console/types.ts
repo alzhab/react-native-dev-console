@@ -13,10 +13,10 @@ export type ICustomTabProps = FC<{
 
 export interface IDevConsoleRef {
   enable: () => void;
-  log: (message: any, tag?: string) => void;
-  error: (message: any, tag?: string) => void;
-  info: (message: any, tag?: string) => void;
-  warn: (message: any, tag?: string) => void;
+  log: (message: string, tag?: string) => void;
+  error: (message: string, tag?: string) => void;
+  info: (message: string, tag?: string) => void;
+  warn: (message: string, tag?: string) => void;
 }
 
 export type IDevConsoleContainerProps = PropsWithChildren<{

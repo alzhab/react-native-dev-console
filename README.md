@@ -1,52 +1,41 @@
-# react-native-dev-console
+# React Native Dev Console
 
-A simple in-app developer console for React Native apps — view logs, network requests, and developer tools even in
-production.
+A simple in-app developer console for React Native applications that allows viewing logs, network requests, and
+developer tools in production environments.
 
-## ✨ Features
+## Features
 
-- 🐞 **Log Viewer** — `log`, `warn`, `error`, and `info` logs with optional tags.
-- 🌐 **Network Inspector** — view HTTP traffic (powered by `react-native-network-logger`).
-- 🧩 **Custom Tab** — inject your own developer toggles and environment config.
-- 🕹 **Floating Button** — activate the console under specific runtime conditions.
-- 📱 **Production-ready** — works in release builds; safe to include in production.
+- Log Viewer - View log, warn, error, and info logs with optional tags for filtering.
+- Network Inspector - Monitor HTTP traffic (powered by react-native-network-logger).
+- Custom Tab - Extend functionality with custom developer toggles and environment configuration.
+- Floating Button - Activate the console programmatically or through specific runtime conditions.
+- Production-ready - Designed to work in release builds and safe for production use.
 
----
-
-## 📸 Preview
-
-![Dev Console in action](https://jumpshare.com/s/Pl9aOWgbjRlJcgIfvEhD)
----
-
-## ⚙️ Installation
+## Installation
 
 ### 1. Install the library
 
-```bash
+```
 npm install react-native-dev-console
-# or
-yarn add react-native-dev-console
 ```
 
-### 2. Install peer dependencies (if not already)
+### 2. Install peer dependencies (if not already installed)
 
-```bash
-npm install react-native-reanimated react-native-gesture-handler react-native-safe-area-context
+```
+npm install react-native-reanimated react-native-gesture-handler react-native-safe-area-context 
 ```
 
 For iOS:
 
-```bash
-npx pod-install
+```
+npx pod-install 
 ```
 
----
+## Quick Start
 
-## 🚀 Quick Start
+### 1. Wrap your application
 
-### 1. Wrap your app
-
-```tsx
+```tsx 
 <GestureHandlerRootView>
   <SafeAreaProvider>
     <Console>
@@ -56,20 +45,18 @@ npx pod-install
 </GestureHandlerRootView>
 ```
 
----
+## File Structure
 
-## 📁 File Structure
-
-Keep your custom Dev Console logic in `src/configs/DevConsole`:
+Recommended structure for custom Dev Console logic:
 
 ```
-src/configs/DevConsole
-├── CustomTab.tsx     # Custom tab with toggles and versioning (optional)
-├── init.ts           # Initialization logic for Dev Console
-└── types.ts          # Dev Console store types
+src/configs/DevConsole 
+├── CustomTab.tsx # Custom tab with toggles and versioning (optional) 
+├── init.ts # Initialization logic for Dev Console 
+└── types.ts # Dev Console store types
 ```
 
-### `init.ts`
+### init.ts
 
 ```ts
 import {version} from '../../../package.json'
@@ -93,79 +80,161 @@ export const ConsoleService = {
 }
 ```
 
-### `types.ts`
+### types.ts
 
 ```ts
 export interface IDevSettingsStore {
   isDevUrl: boolean
   version: string
+} 
+```
+
+## CustomTab Component
+
+```tsx
+import {ICustomTabProps} from 'react-native-dev-console'
+import {Button, StyleSheet, Switch, Text, TextInput, View} from 'react-native'
+import React, {useState} from 'react'
+
+export const CustomTab: ICustomTabProps = ({store, setKey}) => {
+  const [version, setVersion] = useState(store.version)
+  return (
+    <View style={styles.container}>
+      <View style={styles.item}>
+        <Text style={{color: '#fff'}}>Dev Url Api</Text>
+        <Switch
+          value={store.isDevUrl}
+          onChange={() => setKey('isDevUrl', !store.isDevUrl, true)}
+        />
+      </View>
+      <View style={styles.item}>
+        <TextInput
+          style={{color: '#fff', flex: 1}}
+          placeholder={'Version'}
+          value={version}
+          placeholderTextColor={'#b4b4b4'}
+          onChangeText={text => setVersion(text)}
+          keyboardType={'numeric'}
+        />
+        <Button
+          title={'Submit'}
+          onPress={() => setKey('version', version, false)}
+        />
+      </View>
+    </View>
+  )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    paddingHorizontal: 16,
+    paddingBottom: 24,
+  },
+  item: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    borderBottomColor: '#727272',
+    paddingBottom: 5,
+  },
+})
 ```
 
----
-
-## 🧩 `Console` Props
-
-| **Prop**         | **Type**                                                      | **Description**                                          | **Required** |
-|------------------|---------------------------------------------------------------|----------------------------------------------------------|--------------|
-| `children`       | `React.ReactNode`                                             | Your app root wrapped with the Dev Console.              | ✅            |
-| `CustomTab`      | `ICustomTabProps`                                             | Optional tab with custom settings and toggles.           | ❌            |
-| `button`         | `{ style?: StyleProp<ViewStyle>, content?: React.ReactNode }` | Customizes the floating button used to open the console. | ❌            |
-| `button.style`   | `StyleProp<ViewStyle>`                                        | Style override for the floating button.                  | ❌            |
-| `button.content` | `React.ReactNode`                                             | Custom content (icon/text) for the floating button.      | ❌            |
-
----
-
-## 🛠 Dev Console Methods
-
-The `Console` object exposes global functions for programmatic access:
-
-```
-Console.enable()
-Console.log(message:string, tag?: string)
-Console.error(message:string, tag?: string)
-Console.info(message:string, tag?: string)
-Console.warn(message:string, tag?: string)
-```
-
-All logs appear in the **Logs** tab of the Dev Console.
-
-| Method             | Description                                                         |
-|--------------------|---------------------------------------------------------------------|
-| `Console.enable()` | Opens the Dev Console manually.                                     |
-| `Console.log()`    | Adds a standard log message. Optional `tag` for filtering/grouping. |
-| `Console.error()`  | Adds an error message (highlighted in red).                         |
-| `Console.info()`   | Adds an informational message (blue).                               |
-| `Console.warn()`   | Adds a warning message (yellow).                                    |
-
-### Example
-
-```ts
-Console.enable()
-Console.log('User logged in', 'Auth')
-Console.error('Failed to fetch user data', 'API')
-```
-
----
-
-## ⚙️ `CustomTab` Props
-
-If you pass a `CustomTab` to `Console`, it will receive the following props:
+The CustomTab component receives the following props:
 
 ```ts
 export interface ICustomTabProps {
   store: Record<string, any>
-  setKey: (key: string, value: any, persist?: boolean) => void
-}
+  setKey: (key: string, value: any, reload?: boolean) => void
+} 
 ```
 
-| Prop     | Type                                                   | Description                                                          |
-|----------|--------------------------------------------------------|----------------------------------------------------------------------|
-| `store`  | `Record<string, any>`                                  | Current state of the Dev Console store.                              |
-| `setKey` | `(key: string, value: any, persist?: boolean) => void` | Updates the store. If `persist` is true, it's saved in localStorage. |
+| Prop   | Type                                                | Description                                         |
+|--------|-----------------------------------------------------|-----------------------------------------------------|
+| store  | Record<string, any>                                 | Current state of the Dev Console store              |
+| setKey | (key: string, value: any, reload?: boolean) => void | Updates the store. When persist is true, reload App |
 
----
+## Console Component Props
 
-## 📘 License
+| Prop           | Type                                                        | Description                                        | Required |
+|----------------|-------------------------------------------------------------|----------------------------------------------------|----------|
+| children       | React.ReactNode                                             | Your app root wrapped with the Dev Console         | Yes      |
+| CustomTab      | ICustomTabProps                                             | Optional tab with custom settings and toggles      | No       |
+| button         | { style?: StyleProp<ViewStyle>, content?: React.ReactNode } | Customizes the floating button                     | No       |
+| button.style   | StyleProp<ViewStyle>                                        | Style override for the floating button             | No       |
+| button.content | React.ReactNode                                             | Custom content (icon/text) for the floating button | No       |
 
-MIT — free for personal and commercial use.
+## Dev Console Methods
+
+The Console object exposes global functions for programmatic access:
+
+ts Console.enable() Console.log(message: string, tag?: string) Console.error(message: string, tag?: string)
+Console.info(message: string, tag?: string) Console.warn(message: string, tag?: string)
+
+All logs appear in the Logs tab of the Dev Console.
+
+| Method           | Description                                                 |
+|------------------|-------------------------------------------------------------|
+| Console.enable() | Opens the Dev Console manually                              |
+| Console.log()    | Adds a standard log message with optional tag for filtering |
+| Console.error()  | Adds an error message (highlighted in red)                  |
+| Console.info()   | Adds an informational message (highlighted in blue)         |
+| Console.warn()   | Adds a warning message (highlighted in yellow)              |
+
+### Example Usage
+
+```ts 
+Console.enable()
+Console.log('User logged in', 'Auth')
+Console.error('Failed to fetch user data', 'API') 
+```
+
+## Example: Dynamic API URL Switching
+
+Use the isDevUrl flag to switch between development and production API endpoints at runtime:
+
+### src/configs/DevConsole/init.ts
+
+```ts
+import {version} from '../../../package.json';
+import {LocalStorageService, LSKeys} from 'services/LocalStorage';
+
+const isDevelop = process.env.NODE_ENV === 'development';
+const stored = LocalStorageService.getString(LSKeys.LSDevConsoleStore);
+const parsed = stored ? JSON.parse(stored) : {};
+
+export const ConsoleService = {
+  store: {
+    isDevUrl: parsed.isDevUrl ?? isDevelop,
+    version: parsed.version ?? version,
+  },
+  onSetStore: (newStore: any) => {
+    LocalStorageService.set(LSKeys.LSDevConsoleStore, JSON.stringify(newStore));
+  },
+};
+```
+
+### services/Api.ts
+
+```ts
+import axios from 'axios';
+import {ConsoleService} from 'src/configs/DevConsole/init';
+
+const DEV_BASE_URL = 'https://dev.api.myapp.com/';
+const PROD_BASE_URL = 'https://api.myapp.com/';
+
+export const api = axios.create({
+  baseURL: ConsoleService.store.isDevUrl ? DEV_BASE_URL : PROD_BASE_URL,
+});
+
+// Update the baseURL dynamically when the flag changes
+ConsoleService.onSetStore = (store) => {
+  api.defaults.baseURL = store.isDevUrl ? DEV_BASE_URL : PROD_BASE_URL;
+};
+```
+
+## License
+
+MIT License - free for personal and commercial use.

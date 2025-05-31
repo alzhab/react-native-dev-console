@@ -1,47 +1,22 @@
 {
   "name": "react-native-dev-console",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Developer menu",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "postinstall": "patch-package"
-  },
+  "main": "src/index.ts",
+  "scripts": {},
   "author": "Alzhan",
   "license": "ISC",
   "dependencies": {
-    "patch-package": "^8.0.0",
-    "react-native-network-logger": "^1.17.0",
+    "react-native-mmkv": "^3.2.0",
+    "react-native-network-logger": "2.0.0",
     "react-native-restart": "^0.0.27"
   },
   "bundledDependencies": [
     "react-native-network-logger",
     "react-native-restart"
   ],
-  "peerDependencies": {
-    "react": ">=17.0.0",
-    "react-native": ">=0.70.0",
-    "react-native-reanimated": "^2.0.0",
-    "react-native-safe-area-context": "^4.0.0"
-  },
-  "devDependencies": {
-    "react": "^19.1.0",
-    "react-native": "^0.79.2",
-    "react-native-reanimated": "^3.17.5",
-    "react-native-safe-area-context": "^5.4.0"
-  },
   "bundleDependencies": [
     "react-native-network-logger",
     "react-native-restart"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/alzhab/react-native-dev-console"
-  },
-  "keywords": [
-    "react-native",
-    "developer-console",
-    "dev-menu"
-  ],
-  "homepage": "https://github.com/alzhab/react-native-dev-console#readme"
+  ]
 }
