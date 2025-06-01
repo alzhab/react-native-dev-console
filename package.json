@@ -19,5 +19,22 @@
   "bundleDependencies": [
     "react-native-network-logger",
     "react-native-restart"
+  ],
+  "keywords": [
+    "react-native",
+    "devtools",
+    "developer-console",
+    "debugging",
+    "logging",
+    "network-inspector",
+    "react-native-debugger",
+    "debug-console",
+    "production-debugging",
+    "react-native-development",
+    "monitoring",
+    "diagnostics",
+    "error-tracking",
+    "in-app-console",
+    "floating-button"
   ]
 }
