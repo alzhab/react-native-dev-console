@@ -2,9 +2,20 @@ import {useCallback, useRef, useState} from 'react';
 import {TStore} from './types';
 import {ILog} from '../Logger';
 import {ConsoleService} from '../../../../../src/configs/DevConsole/init';
-import RNRestart from 'react-native-restart';
 
 const isDevelop = process.env.NODE_ENV === 'development';
+
+async function reloadApp() {
+  try {
+    // Пробуем Expo метод
+    const expo = await import('expo');
+    await expo.reloadAppAsync();
+  } catch {
+    // Если Expo недоступен, используем react-native-restart
+    const RNRestart = require('react-native-restart').default;
+    RNRestart.restart();
+  }
+}
 
 export const useDevConsoleAdapter = () => {
   const onSetStoreRef = useRef<null | ((store: TStore) => void)>(null);
