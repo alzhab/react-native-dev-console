@@ -1,6 +1,6 @@
 {
   "name": "@corrbo/react-native-dev-console",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Developer menu",
   "main": "src/index.ts",
   "scripts": {},

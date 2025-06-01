@@ -31,7 +31,7 @@ export const useDevConsoleAdapter = () => {
       ConsoleService.onSetStore(newStore);
       
       if (isReload) {
-        RNRestart.restart();
+        reloadApp();
       }
     },
     [store]
